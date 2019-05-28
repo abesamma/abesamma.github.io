@@ -1,0 +1,21 @@
+{"dir" : "ltr",
+    "lang" : "English",
+    "name" : "Looping in Thought",
+    "scope" : "/",
+    "display" : "standalone",
+    "start_url" : "/",
+    "short_name" : "Looping",
+    "theme_color" : "#000000",
+    "description" : "A weblog by A.B. Samma about all things Web and Internet",
+    "orientation" : "any",
+    "background_color" : "#000000",
+    "generated" : "true",
+    "icons" : [
+        {
+            "src": "/images/app_icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+
+}
