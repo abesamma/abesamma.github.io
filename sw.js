@@ -44,10 +44,8 @@ self.addEventListener('fetch', function (event) {
                     return fetch('/version.json').then(function (res) {
                         return res.json().then(function (_new) {
                             if (_new.version === old.version) {
-                                console.log('match');
                                 return caches.match(event.request);
                             }
-                            console.log('do not match')
                             return fetch(event.request).then(function (res) {
                                 caches.open(CACHE).then(function (cache) {
                                     cache.addAll([
