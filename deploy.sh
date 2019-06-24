@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Script to automate maintenance and deployment to git repo
+# Run by typing './deploy.sh'
+
 do_deploy() {
     while true; do
         read -p "Do you wish to deploy to github? [Y/N] " deploy
