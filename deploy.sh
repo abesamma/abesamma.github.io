@@ -32,7 +32,7 @@ do_commit() {
 
 increment_version() {
     version=$(jq .version version.json)
-    let version=version+1
+    version=$((version+1))
     echo '{ "version": '$version' }' > version.json
 }
 

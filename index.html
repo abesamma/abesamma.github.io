@@ -46,7 +46,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE." />
 <link id="faviconLink" rel="shortcut icon" href="favicon.ico">
 <title>Looping in Thought — A.B. Samma's Blog</title>
 <!--~~ This is a Tiddlywiki file. The points of interest in the file are marked with this pattern ~~--><!--~~ Raw markup ~~-->
-<link href="//fonts.googleapis.com/css?family=Comfortaa:300&amp;subset=latin-ext" rel="stylesheet"><!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139304279-1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -781,7 +781,7 @@ Looping in Thought
 <div created="20180428011257852" creator="A.B. Samma" modified="20190624160603910" modifier="A.B. Samma" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/delete">
 <pre>hide</pre>
 </div>
-<div created="20180904190627718" creator="A.B. Samma" modified="20190624165736503" modifier="A.B. Samma" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/edit">
+<div created="20180904190627718" creator="A.B. Samma" modified="20190625113624188" modifier="A.B. Samma" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/edit">
 <pre>hide</pre>
 </div>
 <div created="20180428010046700" modified="20180715005853564" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/info">
@@ -11332,7 +11332,7 @@ span.CodeMirror-selectedtext { background: none; }
 <div created="20180902163626603" modified="20180904144125234" title="$:/state/tab/moresidebar-401116514">
 <pre>$:/core/ui/MoreSideBar/Plugins</pre>
 </div>
-<div created="20180902163621378" creator="A.B. Samma" modified="20190624165744825" modifier="A.B. Samma" title="$:/state/tab/sidebar--1835078512">
+<div created="20180902163621378" creator="A.B. Samma" modified="20190625113631304" modifier="A.B. Samma" title="$:/state/tab/sidebar--1835078512">
 <pre>Posts</pre>
 </div>
 <div created="20180904190613885" creator="A.B. Samma" modified="20190624165731547" modifier="A.B. Samma" title="$:/state/tabs/controlpanel/toolbars-1345989671">
@@ -12102,7 +12102,7 @@ My 4 mottos of life:
 
 [[Icon By Eucalyp Studio|https://www.iconfinder.com/ratch0013]]</pre>
 </div>
-<div created="20190624160829537" creator="A.B. Samma" modified="20190624165444210" modifier="A.B. Samma" tags="Post" title="Automating Stuff with Bash scripts">
+<div created="20190624160829537" creator="A.B. Samma" modified="20190625113617762" modifier="A.B. Samma" tags="Post" title="Automating Stuff with Bash scripts">
 <pre>!!! ''What about Bash scripting?''
 
 Bash scripts are one of those unsung pieces of tech that many use but don't talk about because they're so... mundane or something.
@@ -12184,7 +12184,7 @@ increment_version() {
     version=$(jq .version version.json)
     # There is no type system in bash, but you can declare
     # types using the 'declare' keyword
-    let version=version+1 # the 'let' keyword allows math work
+    version=$((version+1)) # $((arithmetics done here))
     echo '{ &quot;version&quot;: '$version' }' &gt; version.json
 }
 
