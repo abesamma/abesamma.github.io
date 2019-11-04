@@ -570,7 +570,7 @@ Error message and password prompt
 
 <li>From the Web: Rethinking Digital Distribution Channels</li>
 
-<li>JS weirdness: Array.prototype.map() and Immutability</li>
+<li>JS weirdness? Array.prototype.map() and Immutability</li>
 
 <li>Lean Startup: Problem Solution Fit</li>
 
@@ -783,7 +783,7 @@ Looping in Thought
 <div created="20180428011257852" creator="A.B. Samma" modified="20190624160603910" modifier="A.B. Samma" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/delete">
 <pre>hide</pre>
 </div>
-<div created="20180904190627718" creator="A.B. Samma" modified="20191031212824686" modifier="A.B. Samma" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/edit">
+<div created="20180904190627718" creator="A.B. Samma" modified="20191104195148118" modifier="A.B. Samma" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/edit">
 <pre>hide</pre>
 </div>
 <div created="20180428010046700" modified="20180715005853564" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/info">
@@ -11334,8 +11334,8 @@ span.CodeMirror-selectedtext { background: none; }
 <div created="20180902163626603" modified="20180904144125234" title="$:/state/tab/moresidebar-401116514">
 <pre>$:/core/ui/MoreSideBar/Plugins</pre>
 </div>
-<div created="20180902163621378" creator="A.B. Samma" modified="20191031212832486" modifier="A.B. Samma" title="$:/state/tab/sidebar--1835078512">
-<pre>Posts</pre>
+<div created="20180902163621378" creator="A.B. Samma" modified="20191104193602941" modifier="A.B. Samma" title="$:/state/tab/sidebar--1835078512">
+<pre>$:/core/ui/SideBar/Open</pre>
 </div>
 <div created="20180904190613885" creator="A.B. Samma" modified="20190624165731547" modifier="A.B. Samma" title="$:/state/tabs/controlpanel/toolbars-1345989671">
 <pre>$:/core/ui/ControlPanel/Toolbars/ViewToolbar</pre>
@@ -11346,7 +11346,7 @@ span.CodeMirror-selectedtext { background: none; }
 <div created="20180904180412618" creator="A" modified="20180904180417824" modifier="A.B. Samm" title="$:/status/UserName">
 <pre>A.B. Samma</pre>
 </div>
-<div list="[[JS weirdness: Array.prototype.map() and Immutability]]" title="$:/StoryList">
+<div list="[[JS weirdness? Array.prototype.map() and Immutability]]" title="$:/StoryList">
 <pre></pre>
 </div>
 <div created="20181208214715903" creator="A.B. Samma" list="$:/core/ui/Buttons/home $:/core/ui/Buttons/close-all $:/core/ui/Buttons/fold-all $:/core/ui/Buttons/unfold-all $:/core/ui/Buttons/permaview $:/core/ui/Buttons/new-tiddler $:/core/ui/Buttons/new-journal $:/core/ui/Buttons/new-image $:/core/ui/Buttons/import $:/core/ui/Buttons/export-page $:/core/ui/Buttons/control-panel $:/core/ui/Buttons/advanced-search $:/core/ui/Buttons/manager $:/core/ui/Buttons/tag-manager $:/core/ui/Buttons/language $:/core/ui/Buttons/palette $:/core/ui/Buttons/theme $:/core/ui/Buttons/storyview $:/core/ui/Buttons/encryption $:/core/ui/Buttons/timestamp $:/core/ui/Buttons/full-screen $:/core/ui/Buttons/print $:/core/ui/Buttons/save-wiki $:/core/ui/Buttons/refresh $:/core/ui/Buttons/more-page-actions $:/plugins/Abe/maarfapad/start-button" modified="20181208214720770" modifier="A.B. Samma" title="$:/tags/PageControls">
@@ -12228,8 +12228,10 @@ The most successful companies in the world don’t focus on building apps —�
 
 Deep integrations and contextual relevancy are the new distribution opportunity.</pre>
 </div>
-<div created="20191031123446252" creator="A.B. Samma" modified="20191031212803768" modifier="A.B. Samma" tags="Post" title="JS weirdness: Array.prototype.map() and Immutability" tmap.id="75c6a437-6d50-430c-b19a-980def5c8bdf">
-<pre>//Special acknowledgment to [[@jestrux|Special acknowledgment to @jestrux on twitter for pointing this out originally!]] on twitter for pointing this seemingly weird behavior. Check him out!//
+<div created="20191031123446252" creator="A.B. Samma" modified="20191104195137639" modifier="A.B. Samma" tags="Post" title="JS weirdness? Array.prototype.map() and Immutability" tmap.id="75c6a437-6d50-430c-b19a-980def5c8bdf">
+<pre>//Special acknowledgment to [[@jestrux|https://twitter.com/jestrux]] on twitter for pointing this seemingly weird behavior. Check him out!//
+
+//Edited on November 4th, 2019 to make it clarify the role of pass-by-reference versus pass-by-value.//
 
 Immutability is hard to maintain with vanilla javascript. To illustrate this, consider the following arrays:
 
@@ -12271,15 +12273,11 @@ console.log('array2Copy', array2Copy) // [2,4,6]
 ```
 So, what just happened? Our `array1` seems to have been mutated beyond recognition, but `array2` has been left intact? How come?
 
-The key thing is in the callback `double`. A keen eye would point out that this callback is in fact mutating the objects in `array1`. The elements remain as they are, objects with the property `num` whose values have been doubled and assigned to the property `num` as new values. This isn't a bug in the implementation of `Array.prototype.map()`, but rather it is a result of the callback we supplied. This is confirmed by [[MDN notes|https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map]]:
+The key thing is in the callback `double`. A keen eye would point out that this callback is in fact mutating the objects in `array1`. But how? Well, in JS when you pass objects like this to a callback (`double` in this case) they're passed as 'reference types' or 'passed by reference'. What this means is if we attempt to mutate these objects naively, this change is reflected back to the original array. This is because we are accessing a reference or 'address' to a piece of data in memory that is also used by `array1`, so obviously any change you make via that address will be reflected back to `array1`. This isn't a bug in the implementation of `Array.prototype.map()`.
 
+To mitigate this, we need to access the objects 'value type' instead, i.e. we need to access the actual value contained by these objects. There are two ways of doing this.
 
-&lt;&lt;&lt;
-map does not mutate the array on which it is called (although callback, if invoked, may do so).
-&lt;&lt;&lt;
-
-
-We could avoid this by using `Object.assign()` to maintain immutability. Folks who use the Redux library will realize the relevance of this method, though it makes for verbose code. But it's worth it!
+First, we could use `Object.assign()` to copy the referenced object into a new object that we can access by value type. Folks who use the Redux library will realize the relevance of this method in maintaining immutability, though it makes for verbose code. But it's worth it!
 
 
 ```javascript
