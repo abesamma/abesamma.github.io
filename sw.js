@@ -1,5 +1,5 @@
 
-const version = '0.0.5';
+const version = '0.1.0';
 const CACHE = 'looping-cache-v0.1';
 
 self.addEventListener('install', function (event) {
