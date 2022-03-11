@@ -1,5 +1,5 @@
 
-const version = '0.1.0';
+const version = '0.2.0';
 const CACHE = 'looping-cache-v0.1';
 
 self.addEventListener('install', function (event) {
@@ -63,7 +63,14 @@ self.addEventListener('fetch', function (event) {
     } else {
         event.respondWith(
             fetch(event.request).then(function (res) {
-				return res;
+				caches.open(CACHE).then(function (cache) {
+					cache.put(event.request.url, res);
+				});
+				return res.clone();
+			}).catch(function () {
+				return caches.open(CACHE).then(function (cache) {
+					return cache.match(event.request.url);
+				});
 			})
         )
     }
