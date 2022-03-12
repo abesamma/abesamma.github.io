@@ -1,5 +1,5 @@
 
-const VERSION = '1.0.0-alpha-2';
+const VERSION = '1.0.0-alpha-3';
 const CACHE = 'abesamma-cache';
 
 self.addEventListener('install', function (event) {
@@ -34,13 +34,11 @@ self.addEventListener('activate', function (event) {
 });
 
 self.addEventListener('fetch', function (event) {
+    if (event.request.method !== 'GET') return;
+    // Chrome DevTools opening will trigger these o-i-c requests, which this SW can't handle.
+    if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') return;
     event.respondWith(
         fetch(event.request).then(function (res) {
-            if (event.request.method === 'POST') return res;
-            if (event.request.method == 'OPTIONS') return res;
-            if (event.request.method == 'HEAD') return res;
-            // Chrome DevTools opening will trigger these o-i-c requests, which this SW can't handle.
-            if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') return res;
             caches.open(CACHE).then(function (cache) {
                 cache.put(event.request, res);
             });
@@ -50,5 +48,5 @@ self.addEventListener('fetch', function (event) {
                 return cache.match(event.request.url);
             });
         })
-    )
+    );
 });
