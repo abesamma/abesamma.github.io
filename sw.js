@@ -1,5 +1,5 @@
 
-const version = '1.0.0-alpha';
+const VERSION = '1.0.0-alpha';
 const CACHE = 'abesamma-cache';
 
 self.addEventListener('install', function (event) {
@@ -12,9 +12,9 @@ self.addEventListener('install', function (event) {
                 '/'
             ]);
         }).then(function () {
-            console.log('Installed sw.js version:', version);
+            console.log('Installed sw.js VERSION:', VERSION);
         }).catch(function () {
-            console.warn('Failed to install sw.js version', version);
+            console.warn('Failed to install sw.js VERSION', VERSION);
         })
     )
 });
