@@ -1,5 +1,5 @@
 
-const VERSION = '1.0.0-alpha';
+const VERSION = '1.0.0-alpha-1';
 const CACHE = 'abesamma-cache';
 
 self.addEventListener('install', function (event) {
@@ -37,7 +37,7 @@ self.addEventListener('fetch', function (event) {
     event.respondWith(
         fetch(event.request).then(function (res) {
             caches.open(CACHE).then(function (cache) {
-                cache.put(event.request.url, res);
+                cache.put(event.request, res);
             });
             return res.clone();
         }).catch(function () {
