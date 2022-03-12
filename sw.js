@@ -1,6 +1,6 @@
 
-const version = '0.2.0';
-const CACHE = 'looping-cache-v0.1';
+const version = '1.0.0-alpha';
+const CACHE = 'abesamma-cache';
 
 self.addEventListener('install', function (event) {
     event.waitUntil(
@@ -9,7 +9,6 @@ self.addEventListener('install', function (event) {
                 '/manifest.json',
                 '/images/app_icon.png',
                 '/favicon.ico',
-                '/version.json',
                 '/'
             ]);
         }).then(function () {
@@ -35,43 +34,16 @@ self.addEventListener('activate', function (event) {
 });
 
 self.addEventListener('fetch', function (event) {
-    const url = new URL(event.request.url);
-    if (event.request.method !== 'GET') return;
-    if (url.pathname === '/' && event.request.method === 'GET') {
-        event.respondWith(
-            caches.match('/version.json').then(function (result) {
-                return result.json().then(function (old) {
-                    return fetch('/version.json').then(function (res) {
-                        return res.json().then(function (_new) {
-                            if (_new.version === old.version) {
-                                return caches.match(event.request);
-                            }
-                            return fetch(event.request).then(function (res) {
-                                caches.open(CACHE).then(function (cache) {
-                                    cache.addAll([
-                                        '/version.json',
-                                        '/'
-                                    ]);
-                                });
-                                return res;
-                            });
-                        })
-                    })
-                });
-            })
-        )
-    } else {
-        event.respondWith(
-            fetch(event.request).then(function (res) {
-				caches.open(CACHE).then(function (cache) {
-					cache.put(event.request.url, res);
-				});
-				return res.clone();
-			}).catch(function () {
-				return caches.open(CACHE).then(function (cache) {
-					return cache.match(event.request.url);
-				});
-			})
-        )
-    }
+    event.respondWith(
+        fetch(event.request).then(function (res) {
+            caches.open(CACHE).then(function (cache) {
+                cache.put(event.request.url, res);
+            });
+            return res.clone();
+        }).catch(function () {
+            return caches.open(CACHE).then(function (cache) {
+                return cache.match(event.request.url);
+            });
+        })
+    )
 });
