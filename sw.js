@@ -39,7 +39,6 @@ self.addEventListener('fetch', function (event) {
             if (event.request.method === 'POST') return res;
             if (event.request.method == 'OPTIONS') return res;
             if (event.request.method == 'HEAD') return res;
-            if (url.pathname.match(/^\/changefeed$/)) return res;
             // Chrome DevTools opening will trigger these o-i-c requests, which this SW can't handle.
             if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') return res;
             caches.open(CACHE).then(function (cache) {
