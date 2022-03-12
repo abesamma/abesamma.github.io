@@ -35,8 +35,13 @@ self.addEventListener('activate', function (event) {
 
 self.addEventListener('fetch', function (event) {
     if (event.request.method !== 'GET') return;
+    
     // Chrome DevTools opening will trigger these o-i-c requests, which this SW can't handle.
     if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') return;
+    
+    // check if request is made by chrome extensions or web page
+    // if request is made for web page url must contains http.
+    if (!(evt.request.url.indexOf('http') === 0)) return; // skip the request. if request is not made with http protocol
     event.respondWith(
         fetch(event.request).then(function (res) {
             caches.open(CACHE).then(function (cache) {
